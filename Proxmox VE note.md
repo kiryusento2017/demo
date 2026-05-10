@@ -1396,7 +1396,7 @@ services:
       - TZ=Asia/Shanghai                                    # 改为亚洲上海时区
       - IPAM_DATABASE_USER=phpipam                          # 数据库用户
       - IPAM_DATABASE_HOST=192.168.4.20                     # 外部数据库IP地址
-      - IPAM_DATABASE_PASS=CYX19991229!@#                   # 使用你设置的安全密码
+      - IPAM_DATABASE_PASS=password                   # 使用你设置的安全密码
       - IPAM_DATABASE_NAME=phpipam                          # 数据库名称
       - IPAM_DATABASE_PORT=3306                             # 数据库端口
       - SCAN_INTERVAL=1h                                    # 扫描间隔
