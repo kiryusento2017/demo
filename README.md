@@ -9,4 +9,6 @@ bash <(curl -Ls https://raw.githubusercontent.com/kiryusento2017/demo/main/s-ui-
 
 ## YouTube Overview
 
-[![s-ui 安装教程](https://i.ytimg.com/vi/MgtOAVOXBWo/hq720.jpg)](https://www.youtube.com/watch?v=MgtOAVOXBWo&t=3s "s-ui 安装教程")
+<a href="https://www.youtube.com/watch?v=MgtOAVOXBWo&t=3s" target="_blank">
+  <img src="https://i.ytimg.com/vi/MgtOAVOXBWo/hq720.jpg" alt="s-ui 安装教程">
+</a>
