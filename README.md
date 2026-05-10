@@ -5,4 +5,4 @@ bash <(curl -Ls https://raw.githubusercontent.com/kiryusento2017/demo/main/s-ui-
 ```
 ## 🌐 域名测试工具
 
-[打开在线工具 →](./docs/domain-tester.html)
+[打开在线工具 →](https://kiryusento2017.github.io/demo/docs/domain-tester.html)
