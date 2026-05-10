@@ -1,1 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reality 域名测试工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        #buttonBar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        button:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        #commandBox {
+            width: 100%;
+            height: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', 'Monaco', monospace;
+            font-size: 13px;
+            resize: vertical;
+            line-height: 1.6;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        #commandBox:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .success-message {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Reality 目标域名测试工具</h1>
+        <p class="subtitle">随机生成 Shell 命令来测试域名的 SSL 连接速度</p>
+        
+        <div id="buttonBar">
+            <button id="refreshBtn">🔄 换一批</button>
+            <button id="copyBtn">📋 复制命令</button>
+        </div>
+        
+        <textarea id="commandBox" readonly></textarea>
+        
+        <div id="successMsg" class="success-message">✅ 已复制到剪贴板！</div>
+        
+        <div class="info">
+            <strong>💡 使用方法：</strong><br>
+            1. 点击"换一批"生成新的域名列表<br>
+            2. 点击"复制命令"复制 Shell 脚本<br>
+            3. 在 Linux/Mac 终端粘贴并运行<br>
+            4. 查看各域名的 SSL 连接延迟
+        </div>
+    </div>
 
+    <script>
+        const domains = ["amd.com", "aws.com", "c.6sc.co", "j.6sc.co", "b.6sc.co", "intel.com", "r.bing.com", "th.bing.com", "www.amd.com", "www.aws.com", "ipv6.6sc.co", "www.xbox.com", "www.sony.com", "rum.hlx.page", "www.bing.com", "xp.apple.com", "www.wowt.com", "www.apple.com", "www.intel.com", "www.tesla.com", "www.xilinx.com", "www.oracle.com", "www.icloud.com", "apps.apple.com", "c.marsflag.com", "www.nvidia.com", "snap.licdn.com", "aws.amazon.com", "drivers.amd.com", "cdn.bizibly.com", "s.go-mpulse.net", "tags.tiqcdn.com", "cdn.bizible.com", "ocsp2.apple.com", "cdn.userway.org", "download.amd.com", "d1.awsstatic.com", "s0.awsstatic.com", "mscom.demdex.net", "a0.awsstatic.com", "go.microsoft.com", "apps.mzstatic.com", "sisu.xboxlive.com", "www.microsoft.com", "s.mp.marsflag.com", "images.nvidia.com", "vs.aws.amazon.com", "c.s-microsoft.com", "statici.icloud.com", "beacon.gtv-pub.com", "ts4.tc.mm.bing.net", "ts3.tc.mm.bing.net", "d2c.aws.amazon.com", "ts1.tc.mm.bing.net", "ce.mf.marsflag.com", "d0.m.awsstatic.com", "t0.m.awsstatic.com", "ts2.tc.mm.bing.net", "statici.icloud.com", "tag.demandbase.com", "assets-www.xbox.com", "logx.optimizely.com", "azure.microsoft.com", "aadcdn.msftauth.net", "d.oracleinfinity.io", "assets.adobedtm.com", "lpcdn.lpsnmedia.net", "res-1.cdn.office.net", "is1-ssl.mzstatic.com", "electronics.sony.com", "intelcorp.scene7.com", "acctcdn.msftauth.net", "cdnssl.clicktale.net", "catalog.gamepass.com", "consent.trustarc.com", "gsp-ssl.ls.apple.com", "munchkin.marketo.net", "s.company-target.com", "cdn77.api.userway.org", "cua-chat-ui.tesla.com", "assets-xbxweb.xbox.com", "ds-aksb-a.akamaihd.net", "static.cloud.coveo.com", "api.company-target.com", "devblogs.microsoft.com", "s7mbrstream.scene7.com", "fpinit.itunes.apple.com", "digitalassets.tesla.com", "d.impactradius-event.com", "downloadmirror.intel.com", "iosapps.itunes.apple.com", "se-edge.itunes.apple.com", "publisher.liveperson.net", "tag-logger.demandbase.com", "services.digitaleast.mobi", "configuration.ls.apple.com", "gray-wowt-prod.gtv-cdn.com", "visualstudio.microsoft.com", "prod.log.shortbread.aws.dev", "amp-api-edge.apps.apple.com", "store-images.s-microsoft.com", "cdn-dynmedia-1.microsoft.com", "github.gallerycdn.vsassets.io", "prod.pa.cdn.uis.awsstatic.com", "a.b.cdn.console.awsstatic.com", "d3agakyjgjv5i8.cloudfront.net", "vscjava.gallerycdn.vsassets.io", "location-services-prd.tesla.com", "ms-vscode.gallerycdn.vsassets.io", "ms-python.gallerycdn.vsassets.io", "gray-config-prod.api.arc-cdn.net", "i7158c100-ds-aksb-a.akamaihd.net", "downloaddispatch.itunes.apple.com", "res.public.onecdn.static.microsoft", "gray.video-player.arcpublishing.com", "gray-config-prod.api.cdn.arcpublishing.com", "img-prod-cms-rt-microsoft-com.akamaized.net", "prod.us-east-1.ui.gcr-chat.marketing.aws.dev"];
+
+        function getRandomDomains(array, count) {
+            const shuffled = [...array].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        function generateShellCommand(selectedDomains) {
+            const domainStr = selectedDomains.join(" ");
+            return `for d in ${domainStr} ; do t1=$(date +%s%3N); timeout 1 openssl s_client -connect $d:443 -servername $d </dev/null &>/dev/null && t2=$(date +%s%3N) && echo "$d: $((t2 - t1)) ms" || echo "$d: timeout"; done`;
+        }
+
+        function updateCommand() {
+            const selected = getRandomDomains(domains, 10);
+            const command = generateShellCommand(selected);
+            document.getElementById("commandBox").value = command;
+        }
+
+        function copyToClipboard() {
+            const textArea = document.getElementById("commandBox");
+            textArea.select();
+            textArea.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            
+            const msg = document.getElementById("successMsg");
+            msg.style.display = "block";
+            setTimeout(() => {
+                msg.style.display = "none";
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCommand();
+            document.getElementById("refreshBtn").addEventListener("click", updateCommand);
+            document.getElementById("copyBtn").addEventListener("click", copyToClipboard);
+        });
+    </script>
+</body>
+</html>
